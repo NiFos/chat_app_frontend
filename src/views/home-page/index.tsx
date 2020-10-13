@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Divider } from "../../components/divider";
+import { authPagePath } from "../auth-page";
 
+export const homePagePath = `/`;
 interface Props {}
 
 export function HomePage(props: Props) {
@@ -8,12 +11,12 @@ export function HomePage(props: Props) {
   return (
     <div className="container mx-auto flex flex-col w-3/12 text-center">
       <h1 className="text-4xl">Chat app</h1>
-      <Link to="/auth" className="">
+      <Link to={authPagePath} className="">
         <span className="bg-blue text-grey-600 rounded-2">
           Log in / Register
         </span>
       </Link>
-      <div className="border-b-2 border-grey-600 mt-2 mb-2"></div>
+      <Divider />
       <h4 className="text-lg">Features</h4>
       <ul>
         {features.map((item) => (
