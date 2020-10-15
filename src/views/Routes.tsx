@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { AuthPage, authPagePath } from "./auth-page";
+import { ChatPage, chatPagePath } from "./chat-page";
 import { HomePage, homePagePath } from "./home-page";
 
 interface Props {}
@@ -14,8 +15,8 @@ export function Routes(props: Props) {
       <Route path={authPagePath} exact>
         <AuthPage />
       </Route>
-      <Route path={"/chat"} exact>
-        <div>Chat</div>
+      <Route path={chatPagePath}>
+        <ChatPage />
       </Route>
       <Redirect to={homePagePath} />
     </Switch>
