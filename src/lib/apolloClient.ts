@@ -4,26 +4,58 @@ import {
   HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
+  split,
 } from "@apollo/client";
+import { WebSocketLink } from "@apollo/client/link/ws";
+import { getMainDefinition } from "@apollo/client/utilities";
 
 let accessToken = "";
 const cache = new InMemoryCache();
+
+const wsUrl = process.env.REACT_APP_WS_GRAPHQL_URL || "";
+const wsLink = new WebSocketLink({
+  uri: wsUrl,
+  options: {
+    reconnect: true,
+    connectionParams: {
+      headers: {
+        authorization: accessToken,
+      },
+    },
+  },
+});
+
+const httpLink = ApolloLink.from([
+  new ApolloLink((operation, forward) => {
+    operation.setContext({
+      headers: {
+        authorization: accessToken,
+      },
+    });
+    return forward(operation);
+  }),
+  new HttpLink({
+    uri: process.env.REACT_APP_GRAPHQL_URL || "",
+    credentials: "include",
+  }),
+]);
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  wsLink,
+  httpLink
+);
+
 export const apolloClient = new ApolloClient<NormalizedCacheObject>({
   cache,
-  link: ApolloLink.from([
-    new ApolloLink((operation, forward) => {
-      operation.setContext({
-        headers: {
-          authorization: accessToken,
-        },
-      });
-      return forward(operation);
-    }),
-    new HttpLink({
-      uri: process.env.REACT_APP_GRAPHQL_URL || "",
-      credentials: "same-origin",
-    }),
-  ]),
+  link: splitLink,
+  credentials: "include",
 });
 
 export function setAccessToken(token: string) {
