@@ -11,6 +11,7 @@ import { authQuery } from "../../graphql/queries/auth.query";
 import { validateEmail, validateLength } from "../../lib/validation";
 import { setAccessToken } from "../../lib/apolloClient";
 import { authMutation } from "../../graphql/mutations/auth.mutation";
+import { chatPagePath } from "../chat-page";
 
 export const authPagePath = `/auth`;
 interface Props extends RouteComponentProps {}
@@ -58,6 +59,17 @@ function AuthPageComponent(props: Props) {
   const [registration, registrationData] = useMutation(
     authMutation.REGISTRATION
   );
+
+  React.useEffect(() => {
+    const query = props.location.search;
+    const params = queryString.parse(query);
+    if (params && params.accessToken) {
+      const accessToken = params.accessToken;
+      setAccessToken(accessToken as string);
+      localStorage.setItem("hasRefresh", "1");
+      history.push(chatPagePath);
+    }
+  }, []);
 
   React.useEffect(() => {
     const query = props.location.search;

@@ -8,4 +8,11 @@ export const authQuery = {
       }
     }
   `,
+  GET_USER_ID: gql`
+    query Me {
+      me {
+        userId
+      }
+    }
+  `,
 };
