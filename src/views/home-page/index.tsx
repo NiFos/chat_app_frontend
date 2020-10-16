@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Button } from "../../components/button";
 import { Divider } from "../../components/divider";
 import { authQuery } from "../../graphql/queries/auth.query";
-import { getAccessToken } from "../../lib/apolloClient";
 import { authPagePath } from "../auth-page";
 import { chatPagePath } from "../chat-page";
 
