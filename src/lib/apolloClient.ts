@@ -18,9 +18,11 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     connectionParams: {
-      headers: {
-        authorization: accessToken,
-      },
+      headers: accessToken
+        ? {
+            authorization: accessToken,
+          }
+        : {},
     },
   },
 });
@@ -28,9 +30,11 @@ const wsLink = new WebSocketLink({
 const httpLink = ApolloLink.from([
   new ApolloLink((operation, forward) => {
     operation.setContext({
-      headers: {
-        authorization: accessToken,
-      },
+      headers: accessToken
+        ? {
+            authorization: accessToken,
+          }
+        : {},
     });
     return forward(operation);
   }),

@@ -17,9 +17,9 @@ export function CheckLoginComponent(props: Props) {
   React.useEffect(() => {
     const hasRefresh = !!localStorage.getItem("hasRefresh");
     if (hasRefresh) {
-      setAllowRender(true);
       setRefreshMutation();
     }
+    setAllowRender(true);
   }, []);
 
   React.useEffect(() => {
