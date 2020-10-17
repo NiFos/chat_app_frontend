@@ -14,9 +14,14 @@
 [here](https://pensive-lichterman-aa2d6b.netlify.app/)
 (currently not working because I reach my Heroku free tier limitations )
 
-## Used
-* [Hasura](https://hasura.io/): for Graphql schema and Postgres data manipulation
-* [Google cloud functions](https://cloud.google.com/functions): for side actions such as: JWT authorization, oauth urls
+## Tech stack
+* [Hasura](https://hasura.io/): for Graphql schema and Postgres data manipulation.
+
+  I chose Hasura for this project because it's makes development Graphql schema faster. For side actions hasura provides "actions" that requires side REST api, for this I used Google cloud functions.
+
+* [Google cloud functions](https://cloud.google.com/functions): for side actions such as: JWT authorization.
+
+  I chose GCP functions because it's easier way to provide small REST api than develop express application. But I understand that serverless does not fit to async side effects, like - fetch data)
 ## Features
 
 * Group messaging
